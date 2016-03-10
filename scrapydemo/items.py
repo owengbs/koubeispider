@@ -17,4 +17,9 @@ class ScrapydemoItem(scrapy.Item):
     title=scrapy.Field()
     content_type = scrapy.Field()
     content = scrapy.Field()
+<<<<<<< 8c6ca10303b7264b6eb92e82b447877376108b4a
+=======
+    is_best = scrapy.Field()
+    domain = scrapy.Field()
+>>>>>>> init ...
     pass

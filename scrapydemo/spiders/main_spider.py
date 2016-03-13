@@ -10,11 +10,11 @@ class DmozSpider(CrawlSpider):
     name = "test"
     allowed_domains = ["www.babytree.com"]
     start_urls = [
-        "http://www.babytree.com/ask/myqa__view~mlist,tab~D,pg~20",
+        "http://www.babytree.com/ask/myqa__view~mlist,tab~D,pg~1",
     ]
 
     rules = (
-       # Rule(SgmlLinkExtractor(allow=('http://www.babytree.com/ask/myqa__view~mlist,tab~D,pg~\d+', ),)),
+        Rule(SgmlLinkExtractor(allow=('http://www.babytree.com/ask/myqa__view~mlist,tab~D,pg~\d+', ),)),
         Rule(SgmlLinkExtractor(allow=('http://www.babytree\.com/ask/detail/\d+', ),restrict_xpaths=('//ul/li[@class="list-item"]/p[@class="list-title"]/a',)) ,
              follow=True, callback='parse_detail_page'),
         Rule(SgmlLinkExtractor(allow=('http://www.babytree.com/ask/myqa__view~qdetail,qid~\d+,pg~\d+#anchor_answer', ),),

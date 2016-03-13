@@ -24,11 +24,7 @@ NEWSPIDER_MODULE = 'scrapydemo.spiders'
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-<<<<<<< 8c6ca10303b7264b6eb92e82b447877376108b4a
 #DOWNLOAD_DELAY=3
-=======
-DOWNLOAD_DELAY=3
->>>>>>> init ...
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN=16
 #CONCURRENT_REQUESTS_PER_IP=16
@@ -53,16 +49,10 @@ DOWNLOAD_DELAY=3
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-<<<<<<< 8c6ca10303b7264b6eb92e82b447877376108b4a
-#DOWNLOADER_MIDDLEWARES = {
-#    'scrapydemo.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
-=======
 DOWNLOADER_MIDDLEWARES = {
 #    'scrapydemo.middlewares.MyCustomDownloaderMiddleware': 543,
-      'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
+     'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
 }
->>>>>>> init ...
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -81,11 +71,7 @@ ITEM_PIPELINES = {
 # NOTE: AutoThrottle will honour the standard settings for concurrency and delay
 #AUTOTHROTTLE_ENABLED=True
 # The initial download delay
-<<<<<<< 8c6ca10303b7264b6eb92e82b447877376108b4a
-#AUTOTHROTTLE_START_DELAY=5
-=======
 AUTOTHROTTLE_START_DELAY=2
->>>>>>> init ...
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY=60
 # Enable showing throttling stats for every response received:

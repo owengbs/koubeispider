@@ -15,8 +15,8 @@ class ScrapydemoItem(scrapy.Item):
     post_url = scrapy.Field()
     rank = scrapy.Field()
     title=scrapy.Field()
-    content_type = scrapy.Field()
+    content_type = scrapy.Field()  # o: title
     content = scrapy.Field()
-    is_best = scrapy.Field()
+    is_best = scrapy.Field() # 0: not 1: is best
     domain = scrapy.Field()
     pass

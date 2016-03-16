@@ -1,4 +1,5 @@
-#coding:utf-8
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 # Define your item pipelines here
 #
@@ -15,6 +16,7 @@ from hbase.ttypes import *
 
 
 class ScrapydemoPipeline(object):
+
     def __init__(self):
 		tsocket = TSocket.TSocket('localhost', 9090)
 		transport = TTransport.TBufferedTransport(tsocket)
@@ -24,12 +26,6 @@ class ScrapydemoPipeline(object):
 		self.table_name='demo'
 
     def process_item(self, item, spider):
-		print ' ...........item begin ............'
-		print item['post_url']
-		print item['from_url']
-		print item['title'].encode('utf-8')
-		print item['content'].encode('utf-8')
-		print ' ------------ item end -------------'
 		self.insert_data(item)
 		return item
 
@@ -50,7 +46,6 @@ class ScrapydemoPipeline(object):
                                     item['author'].encode('utf-8'), item['create_time'].encode('utf-8'), item['rank'].encode('utf-8'))
 		self.client.mutateRow(self.table_name,rowKey , mutations, None)
 
-
     #渠道ID：4位（给每个网站一个编号）
     #URL md5：32位
     #作者+时间+楼层 md5: 32位
@@ -65,4 +60,5 @@ class ScrapydemoPipeline(object):
         print domain_id+post_url_digest+info_digest
         return domain_id+post_url_digest+info_digest
 
-    domain_dict = {"www.babytree.com":"0001"}
+    domain_dict = {"www.babytree.com":"0001",
+				   "ask.yaolan.com":"0002"}

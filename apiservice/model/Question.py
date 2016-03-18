@@ -32,6 +32,12 @@ class Question(HbaseBase.HbaseBase):
     def getQuestionContent(self):
         return self.answers[self.titleid].content
 if __name__ == '__main__':
-    quest = Question("0001","http://www.babytree.com/ask/detail/24635111")
+    #http://ask.yaolan.com/question/15060221040878428934.html
+    #http://ask.yaolan.com/question/15050520113034135325.html
+    quest = Question("0003","http://www.mama.cn/ask/q4911671-p1.html")
     print "【问题】:%s" % (quest.getQuestionContent())
-    print "\n".join(quest.getAnswerContents())
+    i = 1
+    for each  in  quest.getAnswerContents():
+        print ' ......'+str(i)+'......'
+        print each
+        i = i +1

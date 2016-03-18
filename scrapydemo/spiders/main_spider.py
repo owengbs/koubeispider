@@ -11,7 +11,7 @@ class DmozSpider(CrawlSpider):
     name = "test"
     allowed_domains = ["www.babytree.com","ask.yaolan.com","http://ask.yaolan.com"]
     start_urls = [
-        "http://www.babytree.com/ask/myqa__view~mlist,tab~D",
+    #    "http://www.babytree.com/ask/myqa__view~mlist,tab~D",
         "http://ask.yaolan.com/period/1_1.html"
     ]
 

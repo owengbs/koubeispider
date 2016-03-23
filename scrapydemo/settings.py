@@ -33,7 +33,7 @@ NEWSPIDER_MODULE = 'scrapydemo.spiders'
 #COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED=False
+TELNETCONSOLE_ENABLED=False
 
 # Override the default request headers:
 #DEFAULT_REQUEST_HEADERS = {
@@ -50,7 +50,7 @@ NEWSPIDER_MODULE = 'scrapydemo.spiders'
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-#    'scrapydemo.middlewares.MyCustomDownloaderMiddleware': 543,
+     #'scrapydemo.filter.customdupfilter.CustomDupeFilter': 90,
      'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
 }
 
@@ -84,3 +84,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+LOG_LEVEL = 'INFO'
+DUPEFILTER_CLASS = 'scrapydemo.filter.customdupefilter.CustomDupeFilter'

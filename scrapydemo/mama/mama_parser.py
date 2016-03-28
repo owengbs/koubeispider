@@ -26,10 +26,6 @@ class MamaParser(object):
         if len(author_section)>0:
             author = author_section[0].extract()[0]
         title = self.get_title(response)
-
-
-
-
         create_time_str =response.selector.xpath("//p[@id='ask_info']/span[last()-1]/text()").extract()[0]      # create time
         create_time = self.handle_create_time(create_time_str)
         question_item = self.build_item(title, create_time, author, response.url, response.url, "", "0",title, "0", self.domain )

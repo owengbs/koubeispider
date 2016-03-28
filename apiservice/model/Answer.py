@@ -7,6 +7,3 @@ class Answer(object):
         self.post_url = post_url
         self.author = author
         self.rank = rank
-        
-    
-    

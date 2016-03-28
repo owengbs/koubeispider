@@ -34,7 +34,8 @@ class Question(HbaseBase.HbaseBase):
 if __name__ == '__main__':
     #http://ask.yaolan.com/question/15060221040878428934.html
     #http://ask.yaolan.com/question/15050520113034135325.html
-    quest = Question("0003","http://www.mama.cn/ask/q4911671-p1.html")
+    quest = Question("0003","http://www.mama.cn/ask/q4475500-p1.html")
+    #quest = Question("0002","http://ask.yaolan.com/question/20130427111736372000.html")
     print "【问题】:%s" % (quest.getQuestionContent())
     i = 1
     for each  in  quest.getAnswerContents():

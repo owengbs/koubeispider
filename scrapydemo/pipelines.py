@@ -57,9 +57,9 @@ class ScrapydemoPipeline(object):
         post_url_digest = m2.hexdigest()
         m2.update(author+create_time+rank)
         info_digest = m2.hexdigest()
-        print domain_id+post_url_digest+info_digest
         return domain_id+post_url_digest+info_digest
 
-    domain_dict = {"www.babytree.com":"0001",
-				   "ask.yaolan.com":"0002",
-				   "http://www.mama.cn":"0003"}
+    domain_dict = {"www.babytree.com": "0001",
+                   "ask.yaolan.com": "0002",
+                   "http://www.mama.cn": "0003",
+                   "http://baobao.baidu.com": "0004"}

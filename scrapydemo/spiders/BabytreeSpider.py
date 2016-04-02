@@ -38,7 +38,6 @@ class DmozSpider(CrawlSpider):
         return items
 
     def parse_anchor_answner_page(self, response):
-        print 'parse anchor answer page: ' + response.url
         detail_selector = Selector(response)
         sels = detail_selector.xpath("//div[@class='qa-article section-module']")
         if len(sels) > 1:

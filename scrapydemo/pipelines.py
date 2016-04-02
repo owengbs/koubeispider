@@ -59,7 +59,8 @@ class ScrapydemoPipeline(object):
         info_digest = m2.hexdigest()
         return domain_id+post_url_digest+info_digest
 
-    domain_dict = {"www.babytree.com": "0001",
-                   "ask.yaolan.com": "0002",
-                   "http://www.mama.cn": "0003",
-                   "http://baobao.baidu.com": "0004"}
+    domain_dict = {"www.babytree.com" : "0001",
+                   "ask.yaolan.com" : "0002",
+                   "http://www.mama.cn" : "0003",
+                   "http://baobao.baidu.com" : "0004",
+                   "www.23myw.com" : "0005"}

@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors.sgml import SgmlLinkExtractor
-from scrapydemo.mama.mama_parser import MamaParser
 import scrapy
 
 from scrapydemo.muying.muying_parser import MuYingParser

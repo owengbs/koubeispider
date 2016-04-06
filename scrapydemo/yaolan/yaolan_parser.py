@@ -1,8 +1,6 @@
-import scrapy
-from scrapy.linkextractors.sgml import SgmlLinkExtractor
+
 import urllib2
 import urllib
-from HTMLParser import HTMLParser
 from scrapydemo.items import ScrapydemoItem
 from lxml import etree
 import json

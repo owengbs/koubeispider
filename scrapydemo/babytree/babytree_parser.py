@@ -1,11 +1,8 @@
 # -*- coding:utf-8 -*-
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 from scrapydemo.items import ScrapydemoItem
-from scrapydemo.mama.mama_parser import MamaParser
-from scrapydemo.yaolan.yaolan_parser import YaolanParser
-import scrapy
+
 
 
 class BabytreeParser(CrawlSpider):

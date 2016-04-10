@@ -63,4 +63,5 @@ class ScrapydemoPipeline(object):
                    "ask.yaolan.com" : "0002",
                    "http://www.mama.cn" : "0003",
                    "http://baobao.baidu.com" : "0004",
-                   "www.23myw.com" : "0005"}
+                   "www.23myw.com" : "0005",
+                   "www.mamawenda.cn" : "0006"}

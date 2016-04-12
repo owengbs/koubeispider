@@ -6,6 +6,7 @@ import urlparse
 
 from lxml import etree
 
+MAX_RETRIES = 10
 
 class ParserUtils():
     scj = cookielib.CookieJar()
@@ -21,15 +22,22 @@ class ParserUtils():
             headers = {"User-agent": ua}
         # urllib2.ProxyHandler({'https': 'http://x.tu26.net/p/wyjb33p.pac' })
         req = urllib2.Request(url=req_url, data=None, headers=headers)
-        try:
-            page_result = cls.opener.open(req)
-        except Exception as e:
-            print e
-            return
-
-        page = unicode(page_result.read(), "utf-8")
-        page_tree = etree.HTML(page)
-        return page_tree
+        retries = 0
+        success = False
+        while retries < MAX_RETRIES:
+            try:
+                page_result = cls.opener.open(req)
+                success = True
+                break
+            except Exception as e:
+                print e
+                retries += 1
+                print "retries:%d" % (retries)
+        if success:
+            page = unicode(page_result.read(), "utf-8")
+            page_tree = etree.HTML(page)
+            return page_tree
+        return 
 
     @classmethod
     def login(cls):

@@ -24,9 +24,9 @@ class itClawer():
 
     def crawling(self):
         page_number_max = self.parser.query_page_max()
-        page_index = 99
-        while (page_index <= page_number_max):
-            paging_url = 'https://www.itjuzi.com/investfirm?page=%d'%(page_index)
+        #page_index = 1
+        while ( page_number_max>99):
+            paging_url = 'https://www.itjuzi.com/investfirm?page=%d'%(page_number_max)
             page_urls = self.parse_paging_page(paging_url)
             for ulr_detail in page_urls:
                 if self.filter.request_seen(ulr_detail):
@@ -34,7 +34,7 @@ class itClawer():
                 self.parser.parse_detail_page(ulr_detail)
                 self.filter.insert_url(ulr_detail)
                 time.sleep(random.uniform(0, 3))
-            page_index = page_index +1
+            page_number_max = page_number_max-1
 
     # login to get cookie
     def login(self):

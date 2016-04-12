@@ -59,7 +59,7 @@ class HbaseBase(object):
                     onerow[item[0]] = item[1].value
                 ret.append((row.row, onerow))
         return ret
-    
+
     def insertRow(self, rowKey='',values={}):
         mutations = []
         for item in values.iteritems():
@@ -67,9 +67,16 @@ class HbaseBase(object):
         return self.client.mutateRow(self.tableName,rowKey,mutations, None)
 if __name__ == '__main__':
     base = HbaseBase()
+    domainId = "0003"
+    all0_32 = "".join(['0' for i in range(32)])
+    allf_32 = "".join(['f' for i in range(32)])
+    start = domainId+all0_32+all0_32
+    end = domainId+allf_32+allf_32
+    base.printByRange(start, end)
     # ret = base.getRow('fe244f01f3d82068578d0346dd29b179')
     # ret = base.scanByRange('ee244f01f3d82068578d0346dd29b179','ffffff01f3d82068578d0346dd29b179')
     # print base.insertRow("0001dc362f838bdab14ede19d0fa8e419388dc487a852a9e349a012ad8ec503c9a7a",{"content1:newcolumn":"asdsadas"})
     ret = base.getRow('0001034fcd92528ac5970b642bd906295ed3915f288b76ef4b3246bdf2c9888efe93');
     print ret["content:"]
+#     print base.insertRow("0001dc362f838bdab14ede19d0fa8e419388dc487a852a9e349a012ad8ec503c9a7a",{"content1:newcolumn":"asdsadas"})
     # print ret 

@@ -17,7 +17,9 @@ class DatetimeHelper():
     def build_datetime_str(cls, datetime_object):
         datetime_str = ''
         if isinstance(datetime_object, unicode):
-            datetime_str = datetime_object.encode("utf-8")
+            datetime_str = datetime_object.encode("utf-8").strip()
+        else:
+            datetime_str = datetime_object.strip()
 
         matchs = cls.pattern_1.match(datetime_str)
         if matchs:
@@ -53,10 +55,7 @@ class DatetimeHelper():
                                                minute=int(matchs.groups()[1]),
                                                second=0, microsecond=0)
             return datetime_value.strftime(cls.format)
-        print 'datetime str: ', datetime_str
-        print 'datetime obj: ', datetime_object
-        raise Exception
-
+        return datetime_str
 
 if __name__ == "__main__":
     str ='2015年12月04日'.encode('unicode')

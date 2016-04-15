@@ -2,3 +2,9 @@
 *.pyc
 *project
 *gitignore
+scrapydemo/.idea/encodings.xml
+scrapydemo/.idea/misc.xml
+scrapydemo/.idea/modules.xml
+scrapydemo/.idea/scrapydemo.iml
+scrapydemo/.idea/vcs.xml
+scrapydemo/.idea/workspace.xml

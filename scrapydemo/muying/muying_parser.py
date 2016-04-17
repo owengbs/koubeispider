@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from scrapydemo.utils.itemhelper import ItemHelper
+from scrapydemo.utils.item_helper import ItemHelper
 class MuYingParser(object):
     domain = "www.23myw.com"
 

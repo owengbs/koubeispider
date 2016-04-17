@@ -2,13 +2,15 @@
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
-from scrapydemo.items import ScrapydemoItem
 import scrapy
+from scrapydemo.items import ScrapydemoItem
+from scrapydemo.utils.item_helper import ItemHelper
 
 
-class DmozSpider(CrawlSpider):
+class BabyTreeSpider(CrawlSpider):
     name = "babytree"
     allowed_domains = ["www.babytree.com"]
+    _item_helper = ItemHelper()
     start_urls = [
         "http://www.babytree.com/ask/myqa__view~mlist,tab~D"
     ]
@@ -28,12 +30,12 @@ class DmozSpider(CrawlSpider):
             print 'empty body url:' + response.url
             return
         items = list()
-        item = self.parse_title_content(response)
+        item = self.parse_question_content(response)
         question_title = item['title']
         items.append(item)
         best_item = self.parse_best_answer(response, question_title)  # best answer
         items.append(best_item)
-        answer_items = self.parse_answer_section(response, question_title, response.url)
+        answer_items = self.parse_answer_section(response, question_title, response.url, 1)
         items = items + answer_items
         return items
 
@@ -44,35 +46,28 @@ class DmozSpider(CrawlSpider):
             raise " sels  length is more than one"
         title_selector = sels[0]
         title = title_selector.xpath("./div[@class='qa-title']/h1/text()")[0].extract()
-        post_url = self.anchor_answer_post_url(response.url)
-        items = self.parse_answer_section(response, title, post_url)
+        post_url, pg_number = self.anchor_answer_post_url(response.url)
+        items = self.parse_answer_section(response, title, post_url, pg_number)
         return items
 
-    def parse_title_content(self, response):
-        item = ScrapydemoItem()
+    def parse_question_content(self, response):
         detail_selector = Selector(response)
-        sels = detail_selector.xpath("//div[@class='qa-article section-module']")
-        if len(sels) > 1:
-            raise " sels  length is more than one"
-        title_selector = sels[0]
-        title = title_selector.xpath("./div[@class='qa-title']/h1/text()")[0].extract()
-        item['title'] = title
-        item['create_time'] = title_selector.xpath(
-            "./div[@class='qa-related']/div[@class='qa-contributor']/span[@class='source']/span[@itemprop='post_time']/text()")[
-            0].extract()
-        item['author'] = ''
-        author_selectors = title_selector.xpath(
-            "./div[@class='qa-related']/div[@class='qa-contributor']/ul/li/a/span/text()")
-        if len(author_selectors) == 1:
-            item['author'] = author_selectors[0].extract()
-        item['from_url'] = response.url
-        item['post_url'] = response.url
-        item['rank'] = "0"
-        item['content_type'] = "0"
-        item['content'] = title
-        item['is_best'] = '0'
-        item['domain'] = self.allowed_domains[0]
-        return item
+        create_time = detail_selector.xpath('//*[@id="qa-article"]/div[2]/div/span/abbr/@title')[0].extract()
+        author_sec = detail_selector.xpath('//*[@id="qa-article"]/div[2]/div/ul/li[1]/a/span[@itemprop="accountName"]/text()')
+        author = ''
+        if len(author_sec)>0:
+            author = author_sec.extract()[0]
+        question_section = detail_selector.xpath('//*[@id="qa-article"]/div[1]/h1[@itemprop="title"]/text()').extract()[0]
+
+        content_section = answer.xpath("./div[@class='answer-text']/descendant-or-self::*/text()")
+        content = ''
+        for each in content_section:
+            content = content + each.extract()
+
+        question_item = self._item_helper.build_question(question, create_time, author,
+                                         response.url, question, self.allowed_domains[0])
+
+        return question_item
 
     def parse_best_answer(self, response, title):
         best_answers = response.selector.xpath(
@@ -81,6 +76,7 @@ class DmozSpider(CrawlSpider):
             return None
         elif len(best_answers) > 1:
             raise 'more than one best answer'
+
         bes = best_answers[0]
         texts = bes.xpath("./div[@class='answer-text']/text()").extract()
         answer_text = texts[0]
@@ -94,21 +90,28 @@ class DmozSpider(CrawlSpider):
             "./div[@class='answer-related']/div[@class='qa-contributor']/ul/li/a/span[@itemprop='accountName']/text()").extract()[
             0]
 
-        return self.build_item(title, create_time, author, response.url, response.url, "", "1", answer_text, "1",
-                               self.allowed_domains[0])
+        return self._item_helper.build_best_answer(title, create_time, author, response.url,
+                                                   response.url, "1", answer_text,
+                                                   self.allowed_domains[0])
 
     # parse answer section
-    def parse_answer_section(self, response, title, post_url):
+    def parse_answer_section(self, response, title, post_url, pg_number):
         items = list()
-        for answer in response.selector.xpath("//ul[@class='qa-answer-list']/li[@class='answer-item']"):
+        rank = 1 + (pg_number-1)*12
+        for answer in response.selector.xpath('//*[@id="qa-answers"]/div[2]/ul/li'):
             author = answer.xpath("./ul[@class='qa-meta']/li[@class='username']/a/span/text()")[0].extract()
-            create_time = \
-            answer.xpath("./ul[@class='qa-meta']/li[@class='timestamp']/span[@itemprop='reply_time']/text()")[
-                0].extract()
-            content = answer.xpath("./div[@class='answer-text']/text()")[0].extract()
+            create_time = answer.xpath("./ul[1]/li[3]/abbr/@title")
+            if create_time:
+                create_time = create_time.extract()[0]
+            content_section = answer.xpath("./div[@class='answer-text']/descendant-or-self::*/text()")
+            content = ''
+            for each in content_section:
+                content = content + each.extract()
 
-            answer_item = self.build_item(title, create_time, author, response.url, post_url, "", "1", content, "0",
-                                          self.allowed_domains[0])
+            answer_item = self._item_helper.build_answer(title, create_time, author,
+                                                         response.url, post_url, str(rank),
+                                                         content, self.allowed_domains[0])
+            rank = rank +1
             items.append(answer_item)
         return items
 
@@ -117,20 +120,6 @@ class DmozSpider(CrawlSpider):
         index_begin = original_url.find('qid~') + 4
         index_end = original_url.find(',pg~')
         qid = original_url[index_begin:index_end]
+        pg_num = original_url[index_end + 4:]
         url = 'http://www.babytree.com/ask/detail/' + qid
-        return url
-
-    def build_item(self, title, create_time, author, from_url, post_url, rank, content_type, content, is_best, domain):
-        item = ScrapydemoItem()
-        item['title'] = title
-        item['create_time'] = create_time
-        item['author'] = author
-        item['from_url'] = from_url
-        item['post_url'] = post_url
-        item['rank'] = rank
-        item['content_type'] = content_type
-        item['content'] = content
-        item['is_best'] = is_best
-        item['domain'] = domain
-        return item
-
+        return url, int(pg_num)

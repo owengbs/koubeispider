@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from scrapy import Selector
-from scrapydemo.utils.itemhelper import ItemHelper
+from scrapydemo.utils.item_helper import ItemHelper
 
 from scrapydemo.utils.datetime_helper import DatetimeHelper
 

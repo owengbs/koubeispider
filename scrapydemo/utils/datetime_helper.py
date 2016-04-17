@@ -5,21 +5,32 @@ import re
 
 
 class DatetimeHelper():
+    pattern_0 = re.compile(r"^(\d+?)-(\d+?)-(\d+?) (\d+?):(\d+?):(\d+?)$")
     pattern_1 = re.compile(r"^(\d+?)年(\d+?)月(\d+?)日")
-    pattern_2 = re.compile(r"^(\d+?)月(\d+?)日 (\d+):(\d+)")
+    pattern_2 = re.compile(r"^(\d+?)月(\d+?)日 (\d+):(\d+)$")
     pattern_3 = re.compile(r"^(\d+?)分钟前")
     pattern_4 = re.compile(r"今天 (\d+?):(\d+?)$")
     pattern_5 = re.compile(r"昨天 (\d+?):(\d+?)$")
+    pattern_6 = re.compile(r"(\d+?)-(\d+?)-(\d+?) (\d+?):(\d+?)$")
     format = '%Y-%m-%d %H:%M:%S'
 
 
     @classmethod
     def build_datetime_str(cls, datetime_object):
+        if datetime_object is None:
+            return ''
         datetime_str = ''
         if isinstance(datetime_object, unicode):
             datetime_str = datetime_object.encode("utf-8").strip()
         else:
             datetime_str = datetime_object.strip()
+
+        if datetime_str == '':
+            return ''
+
+        matchs = cls.pattern_0.match(datetime_str)
+        if matchs:
+            return datetime_str
 
         matchs = cls.pattern_1.match(datetime_str)
         if matchs:
@@ -55,10 +66,19 @@ class DatetimeHelper():
                                                minute=int(matchs.groups()[1]),
                                                second=0, microsecond=0)
             return datetime_value.strftime(cls.format)
-        return datetime_str
+
+        matchs = cls.pattern_6.match(datetime_str)
+        if matchs:
+            return datetime.datetime(int(matchs.groups()[0]), int(matchs.groups()[1]),
+                                     int(matchs.groups()[2]),
+                                     hour=int(matchs.groups()[3]),
+                                     minute=int(matchs.groups()[4])).strftime(cls.format)
+
+
+        raise "Invalid datetime format, " , datetime_str
 
 if __name__ == "__main__":
-    str ='2015年12月04日'.encode('unicode')
+    str =u'2015年12月04日'
     print str, DatetimeHelper.build_datetime_str(str)
 
     str = '5月21日 14:59'
@@ -73,20 +93,12 @@ if __name__ == "__main__":
     str = '昨天 23:32'
     print  str, DatetimeHelper.build_datetime_str(str)
 
-    str = '昨天  23:32'
-    print  str, DatetimeHelper.build_datetime_str(str)
+    str_2 = '2016-09-10 12:08'
+    print  str_2, DatetimeHelper.build_datetime_str(str_2)
 
-# class DateTimeHelper():
-#     encode_type = 'utf-8'
-#
-#     @classmethod
-#     def convertDate(cls,date_str):
-#         date_str = date_str.strip().encode('utf-8')
-#         if chardet.detect(date_str).get('encoding') != DateTimeHelper.encode_type:
-#             date_str = date_str.encode('utf-8')
-#         create_time = date_str.replace('年', '-').replace('月', '-').replace('日', '')
-#         return create_time
-#
-#
-#
-#
+    str_2 = '2016-09-10 12:08:56'
+    print  str_2, DatetimeHelper.build_datetime_str(str_2)
+
+
+
+

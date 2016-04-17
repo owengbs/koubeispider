@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from scrapydemo.utils.datetime_helper import DatetimeHelper
-from scrapydemo.utils.itemhelper import ItemHelper
+from scrapydemo.utils.item_helper import ItemHelper
 
 
 class MamawendaParser(object):

@@ -2,7 +2,7 @@
 # coreseek3.2 python source
 # author: xinyuan
 # date: 2016-04-03 11:46
-import os,sys
+import os,sys, time
 sys.path.append("../")
 import apiservice.model.KoubeiLoader as KoubeiLoader
 import apiservice.model.Question as Question
@@ -14,7 +14,12 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='/Users/xinyuan/git/koubeispider/indexer/log/indexer.log',
                     filemode='w')
 
-docid_rediskey_format = "coreseek_docid_%d" 
+docid_rediskey_format = "coreseek_docid_%d"
+def formatdate(x):
+    format = "0000-00-00 00:00:00"
+    if len(format) > len(x):
+        x=x+format[len(x):]
+    return x
 class MainSource(object):
     def __init__(self, conf):
         self.conf =  conf
@@ -28,10 +33,11 @@ class MainSource(object):
             ('hbasedocid', {'type':'text'} ),
             ('title', { 'type':'text'} ),
             ('content', { 'type':'text'} ),
+            ('create_time', {'type':'integer'} ),
         ]
 
     def GetFieldOrder(self): #字段的优先顺序
-        return [('content', 'docid', 'title')]
+        return [('content', 'docid', 'title','create_time')]
 
     def Connected(self):   #如果是数据库，则在此处做数据库连接
         pass
@@ -45,6 +51,9 @@ class MainSource(object):
             self.title = ''
             self.hbasedocid = quest.docid
             self.content = quest.content
+            timestr = formatdate(quest.createtime)
+            print timestr
+            self.create_time = int(time.mktime(time.strptime(timestr, "%Y-%m-%d %H:%M:%S")))
             self.rediscli.set(docid_rediskey_format % (self.id), self.hbasedocid)
             logging.warn("idx:%d hbasedocid:%s rediskey:%s content:%s" % (self.idx, self.hbasedocid, docid_rediskey_format % (self.id), self.content))
             self.idx += 1

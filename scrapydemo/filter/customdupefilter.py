@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from scrapy.dupefilter import RFPDupeFilter
 import redis
 
-expire_interval = 60*60*24
+expire_interval = 60*60*12
 
 
 class CustomDupeFilter(RFPDupeFilter):
@@ -14,8 +15,10 @@ class CustomDupeFilter(RFPDupeFilter):
     def request_seen(self, request):
         request_url = request.url
         if self.redis_client.get(request_url):
-            print 'dup url', request_url
             return True
         else:
             self.redis_client.set(request_url, '1')
             self.redis_client.expire(request_url, expire_interval)
+
+    def __def__(self):
+        self.redis_client.shutdown()

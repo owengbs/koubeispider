@@ -16,4 +16,7 @@ class ParseHelper():
     def get_datetime(self, url):
         return self.redis_client.get(url)
 
+    def __def__(self):
+        self.redis_client.shutdown()
+
 

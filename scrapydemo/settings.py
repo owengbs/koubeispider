@@ -51,6 +51,7 @@ TELNETCONSOLE_ENABLED=False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
      #'scrapydemo.filter.customdupfilter.CustomDupeFilter': 90,
+     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
      'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
 }
 

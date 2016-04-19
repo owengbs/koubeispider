@@ -60,14 +60,3 @@ class ScrapydemoPipeline(object):
         return domain_id + post_url_digest + info_digest
 
 
-
-
-
-        # domain_dict = {"www.babytree.com" : "0001",
-        #                "ask.yaolan.com" : "0002",
-        #                "http://www.mama.cn" : "0003",
-        #                "http://baobao.baidu.com" : "0004",
-        #                "www.23myw.com" : "0005",
-        #                "www.mamawenda.cn" : "0006",
-
-    # 		   "http://ask.ci123.com":"0007"}

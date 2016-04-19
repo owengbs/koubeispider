@@ -3,10 +3,11 @@ import urlparse
 import scrapy
 from scrapydemo.ask_ci.askci_parser import AskCiParser
 
-class MySpider(scrapy.Spider):
+class AskCISpider(scrapy.Spider):
     name = "askci"
     allowed_domains = ["ask.ci123.com"]
-    base_url = 'http://ask.ci123.com'
+    # handle_httpstatus_list = [404]
+    _base_url = 'http://ask.ci123.com'
     start_urls = [
         'http://ask.ci123.com/categories/show/2',
         'http://ask.ci123.com/categories/show/3',
@@ -35,18 +36,15 @@ class MySpider(scrapy.Spider):
         'http://ask.ci123.com/categories/show/46',
         'http://ask.ci123.com/categories/show/2754',
     ]
-
     def parse(self, response):
         self.parse_question_datetime(response)
         for question_url in response.xpath('//*[@id="list_ask_middle2"]/div/div[1]/div/ul[2]/li/a[1]/@href').extract():
-            question_url = urlparse.urljoin(self.base_url, question_url)
+            question_url = urlparse.urljoin(self._base_url, question_url)
             yield scrapy.Request(question_url, callback=self.parse_answers)
 
         for url in response.xpath('//*[@id="list_page"]/div/a/@href').extract():
-            url = urlparse.urljoin(self.base_url, url)
+            url = urlparse.urljoin(self._base_url, url)
             yield scrapy.Request(url, callback=self.parse)
-
-
 
     # parse question in paging page
     def parse_question_datetime(self, response):

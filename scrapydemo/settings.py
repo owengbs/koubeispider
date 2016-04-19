@@ -36,10 +36,8 @@ NEWSPIDER_MODULE = 'scrapydemo.spiders'
 TELNETCONSOLE_ENABLED=False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
+# DEFAULT_REQUEST_HEADERS = {
+# }
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
@@ -51,7 +49,7 @@ TELNETCONSOLE_ENABLED=False
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
      #'scrapydemo.filter.customdupfilter.CustomDupeFilter': 90,
-     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware' : None,
      'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
 }
 

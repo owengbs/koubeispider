@@ -7,7 +7,7 @@ from scrapydemo.utils.datetime_helper import DatetimeHelper
 from scrapydemo.ask_ci.url_helper import ParseHelper
 
 class AskCiParser(object):
-    domain = "http://ask.ci123.com"
+    domain = "ask.ci123.com"
     def __init__(self):
         self._helper = ItemHelper()
         self._parse_helper = ParseHelper()

@@ -57,9 +57,9 @@ class BabyTreeSpider(CrawlSpider):
         author = ''
         if len(author_sec)>0:
             author = author_sec.extract()[0]
-        question_section = detail_selector.xpath('//*[@id="qa-article"]/div[1]/h1[@itemprop="title"]/text()').extract()[0]
+        question = detail_selector.xpath('//*[@id="qa-article"]/div[1]/h1[@itemprop="title"]/text()').extract()[0]
 
-        content_section = answer.xpath("./div[@class='answer-text']/descendant-or-self::*/text()")
+        content_section = detail_selector.xpath("./div[@class='answer-text']/descendant-or-self::*/text()")
         content = ''
         for each in content_section:
             content = content + each.extract()

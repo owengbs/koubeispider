@@ -30,11 +30,12 @@ NEWSPIDER_MODULE = 'scrapydemo.spiders'
 #CONCURRENT_REQUESTS_PER_IP=16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED=False
+COOKIES_ENABLED=False
 
 # Disable Telnet Console (enabled by default)
 TELNETCONSOLE_ENABLED=False
 
+RETRY_TIMES=5
 # Override the default request headers:
 # DEFAULT_REQUEST_HEADERS = {
 # }
@@ -70,7 +71,7 @@ ITEM_PIPELINES = {
 # NOTE: AutoThrottle will honour the standard settings for concurrency and delay
 #AUTOTHROTTLE_ENABLED=True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY=1
+AUTOTHROTTLE_START_DELAY=1
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY=60
 # Enable showing throttling stats for every response received:

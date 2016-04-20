@@ -12,6 +12,10 @@ class DatetimeHelper():
     pattern_4 = re.compile(r"今天 (\d+?):(\d+?)$")
     pattern_5 = re.compile(r"昨天 (\d+?):(\d+?)$")
     pattern_6 = re.compile(r"(\d+?)-(\d+?)-(\d+?) (\d+?):(\d+?)$")
+    pattern_7 = re.compile(r"^(\d+?)小时前$")
+    pattern_8 = re.compile(r"^(\d+?)天前$")
+
+
     format = '%Y-%m-%d %H:%M:%S'
 
 
@@ -74,8 +78,22 @@ class DatetimeHelper():
                                      hour=int(matchs.groups()[3]),
                                      minute=int(matchs.groups()[4])).strftime(cls.format)
 
+        matchs = cls.pattern_7.match(datetime_str)
+        if matchs:
+            datetime_value = now_datetime - datetime.timedelta(hours=int(matchs.groups()[0]))
+            return datetime_value.strftime(cls.format)
 
-        raise "Invalid datetime format, " , datetime_str
+        matchs = cls.pattern_8.match(datetime_str)
+        if matchs:
+            datetime_value = now_datetime - datetime.timedelta(days=int(matchs.groups()[0]))
+            return datetime_value.strftime(cls.format)
+
+
+
+
+
+
+        raise "Invalid datetime format, " , datetime_object
 
 if __name__ == "__main__":
     str =u'2015年12月04日'
@@ -98,6 +116,14 @@ if __name__ == "__main__":
 
     str_2 = '2016-09-10 12:08:56'
     print  str_2, DatetimeHelper.build_datetime_str(str_2)
+
+    str = "3小时前"
+    print  str, DatetimeHelper.build_datetime_str(str)
+    str ="1天前"
+
+    print  str, DatetimeHelper.build_datetime_str(str)
+
+
 
 
 

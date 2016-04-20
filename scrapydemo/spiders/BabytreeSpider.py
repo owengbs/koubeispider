@@ -3,7 +3,6 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 import scrapy
-from scrapydemo.items import ScrapydemoItem
 from scrapydemo.utils.item_helper import ItemHelper
 
 

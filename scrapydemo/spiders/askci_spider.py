@@ -6,7 +6,6 @@ from scrapydemo.ask_ci.askci_parser import AskCiParser
 class AskCISpider(scrapy.Spider):
     name = "askci"
     allowed_domains = ["ask.ci123.com"]
-    # handle_httpstatus_list = [404]
     _base_url = 'http://ask.ci123.com'
     start_urls = [
         'http://ask.ci123.com/categories/show/2',

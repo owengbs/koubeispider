@@ -9,6 +9,14 @@ class KuaiwenSpider(CrawlSpider):
     name = "kuaiwen"
     allowed_domains = ['kuaiwen.pcbaby.com.cn']
     _item_helper = ItemHelper()
+    custom_settings = {'CONCURRENT_REQUESTS':1,
+                       'CONCURRENT_REQUESTS_PER_IP':1,
+                       # 'AUTOTHROTTLE_DEBUG':True,
+                       'AUTOTHROTTLE_ENABLED':True,
+                       'RETRY_TIMES': 10,
+
+                       }
+
     start_urls = [
         'http://kuaiwen.pcbaby.com.cn/question/t1/p1.html',
         'http://kuaiwen.pcbaby.com.cn/question/t2/p1.html',
@@ -38,6 +46,5 @@ class KuaiwenSpider(CrawlSpider):
     )
 
     def parse_detail_page(self, response):
-        print ' parse_detail_page .... '
         parser = KuaiwenParser()
-        parser.parse_page(response)
+        return parser.parse_page(response)

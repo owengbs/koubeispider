@@ -14,6 +14,7 @@ class DatetimeHelper():
     pattern_6 = re.compile(r"(\d+?)-(\d+?)-(\d+?) (\d+?):(\d+?)$")
     pattern_7 = re.compile(r"^(\d+?)小时前$")
     pattern_8 = re.compile(r"^(\d+?)天前$")
+    pattern_9 = re.compile(r"^刚刚$")
 
 
     format = '%Y-%m-%d %H:%M:%S'
@@ -88,17 +89,20 @@ class DatetimeHelper():
             datetime_value = now_datetime - datetime.timedelta(days=int(matchs.groups()[0]))
             return datetime_value.strftime(cls.format)
 
+        matchs = cls.pattern_9.match(datetime_str)
+        if matchs:
+            datetime_value = now_datetime.replace(second=0,microsecond=0)
+            return datetime_value.strftime(cls.format)
+        print 'invalid datetime format  begin ....'
+        print datetime_object
 
+        print ' invalid datetime format end ...... '
 
-
-
-
-        raise "Invalid datetime format, " , datetime_object
+        raise "Invalid datetime format, "
 
 if __name__ == "__main__":
     str =u'2015年12月04日'
     print str, DatetimeHelper.build_datetime_str(str)
-
     str = '5月21日 14:59'
     print  str, DatetimeHelper.build_datetime_str(str)
 
@@ -122,6 +126,12 @@ if __name__ == "__main__":
     str ="1天前"
 
     print  str, DatetimeHelper.build_datetime_str(str)
+
+
+    str = "刚刚"
+
+    print  str, DatetimeHelper.build_datetime_str(str)
+
 
 
 

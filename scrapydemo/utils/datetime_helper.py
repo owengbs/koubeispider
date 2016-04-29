@@ -15,6 +15,7 @@ class DatetimeHelper():
     pattern_7 = re.compile(r"^(\d+?)小时前$")
     pattern_8 = re.compile(r"^(\d+?)天前$")
     pattern_9 = re.compile(r"^刚刚$")
+    pattern_10 = re.compile(r"^发表于 \d+-\d+-\d+ \d+:\d+:\d+$")
 
 
     format = '%Y-%m-%d %H:%M:%S'
@@ -93,6 +94,11 @@ class DatetimeHelper():
         if matchs:
             datetime_value = now_datetime.replace(second=0,microsecond=0)
             return datetime_value.strftime(cls.format)
+
+        matchs = cls.pattern_10.match(datetime_str)
+        if matchs:
+            a = datetime_str.split(' ')
+            return a[1] + ' ' + a[2]
         print 'invalid datetime format  begin ....'
         print datetime_object
 
@@ -130,6 +136,9 @@ if __name__ == "__main__":
 
     str = "刚刚"
 
+    print  str, DatetimeHelper.build_datetime_str(str)
+
+    str = '发表于 2016-3-21 08:38:18'
     print  str, DatetimeHelper.build_datetime_str(str)
 
 

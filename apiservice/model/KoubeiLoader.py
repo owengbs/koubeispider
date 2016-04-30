@@ -76,7 +76,18 @@ class KoubeiLoader(HbaseBase.HbaseBase):
 if __name__ == '__main__':
     #http://ask.yaolan.com/question/15060221040878428934.html
     #http://ask.yaolan.com/question/15050520113034135325.html
+
     loader = KoubeiLoader()
+    index = 0
+    (quests, index) = loader.findQuestionByRank(index)
+    for quest in quests:
+        print quest.content
+    while len(quests):
+        index += 1
+        (quests, index) = loader.findQuestionByRank(index)
+        for quest in quests:
+            print quest.content
+    exit()
     quest = loader.findQuestionWithAnsersByUrl("0006", "http://www.mamawenda.cn/ask/a/670822")
     print "【问题】docid:%s content:%s" % (quest.docid, quest.content)
     i = 1

@@ -11,7 +11,7 @@ sphinx_port = 9312
 
 dict_path = '/usr/local/mmseg/etc/'
 docid_rediskey_format = "coreseek_docid_%d"
-q = '看深秋'
+q = u'看深秋'
 mode = SPH_MATCH_EXTENDED2
 rankmode = SPH_RANK_BM25
 index = '*'

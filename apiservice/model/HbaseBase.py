@@ -9,7 +9,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
-                    filename='/home/macxin/koubeispider/indexer/log/indexer.log',
+                    filename='/Users/xinyuan/git/koubeispider/indexer/log/indexer.log',
                     filemode='w')
 
 class HbaseBase(object):

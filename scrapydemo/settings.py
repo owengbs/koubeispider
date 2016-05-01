@@ -14,9 +14,11 @@ BOT_NAME = 'scrapydemo'
 SPIDER_MODULES = ['scrapydemo.spiders']
 NEWSPIDER_MODULE = 'scrapydemo.spiders'
 
+DOWNLOAD_HANDLERS = {"s3":None}
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrapydemo (+http://www.yourdomain.com)'
+#USER_AGENT = ''
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -49,7 +51,6 @@ RETRY_TIMES=5
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-     #'scrapydemo.filter.customdupfilter.CustomDupeFilter': 90,
      'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware' : None,
      'scrapydemo.useragents.rotateuseragent.RotateUserAgentMiddleware':400
 }
@@ -74,8 +75,9 @@ ITEM_PIPELINES = {
 AUTOTHROTTLE_START_DELAY=1
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY=60
+
 # Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG=False
+# AUTOTHROTTLE_DEBUG=True
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
@@ -86,5 +88,5 @@ AUTOTHROTTLE_START_DELAY=1
 #HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 
-LOG_LEVEL = 'INFO'
+#LOG_LEVEL = 'INFO'
 DUPEFILTER_CLASS = 'scrapydemo.filter.customdupefilter.CustomDupeFilter'

@@ -26,9 +26,9 @@ class ITSpider(scrapy.Spider):
     _INVESTEVENTS_FOREIGN='investevents/foreign'
 
     start_urls = [
-        # 'https://www.itjuzi.com/investevents',
+        'https://www.itjuzi.com/investevents',
         'https://www.itjuzi.com/merger',
-        # 'https://www.itjuzi.com/investevents/foreign',
+        'https://www.itjuzi.com/investevents/foreign',
         'https://www.itjuzi.com/merger/foreign',
     ]
 

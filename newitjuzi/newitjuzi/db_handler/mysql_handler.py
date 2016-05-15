@@ -21,7 +21,6 @@ class DBHelper():
         self.session.close()
 
     def insert_data(self, lists):
-        print lists
         for each in lists:
             self.session.add(each)
         self.session.commit()

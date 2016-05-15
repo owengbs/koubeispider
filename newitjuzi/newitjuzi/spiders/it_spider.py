@@ -106,7 +106,7 @@ class ITSpider(scrapy.Spider):
         for each in lis:
             time = each.xpath('./i[@class="cell round"]/span/text()').extract()[0]
             companyName = each.xpath('./p[@class="title"]/a/span/text()').extract()[0]
-
+            # foreign
             scope_desc = each.xpath('./p/span[@class="tags t-small c-gray-aset"]/a/text()').extract()[0]
             scope_value = self.scope_dict[scope_desc]
 
@@ -123,7 +123,7 @@ class ITSpider(scrapy.Spider):
             investor_dict = self._merger_investor_dict(each)
             ItemHelper.insert_merger(time=time, companyName=companyName, type=type, proportionmsg=proportionmsg,
                                      amountmsg=amountmsg, investorDict=investor_dict, comment='',
-                                     insdustryId=scope_value, areaId=prov_value)
+                                     industryId=scope_value, areaId=prov_value)
 
 
     def _parse_investevents(self, response, case_type):
@@ -131,9 +131,13 @@ class ITSpider(scrapy.Spider):
         for each in lis:
             time = each.xpath('./i[@class="cell round"]/span/text()').extract()[0]
             companyName = each.xpath('./p[@class="title"]/a/span/text()').extract()[0]
-
             # https://www.itjuzi.com/investevents?scope=70 => 社交网络 行业
-            scope_url = each.xpath('./p/span[@class="tags t-small c-gray-aset"]/a/@href').extract()[0]
+            scope_sec = each.xpath('./p/span[@class="tags t-small c-gray-aset"]/a/@href').extract()
+            if len(scope_sec)>0:
+                scope_url = scope_sec[0]
+            else:
+                scope_url = ''
+
             scope_value = ParserHelper.get_url_parameter(scope_url, 'scope')
 
             if case_type==self._INVESTEVENTS:
@@ -141,24 +145,20 @@ class ITSpider(scrapy.Spider):
             else:
                 prov_name = each.xpath('./p/span/span[@class="t-small"]/text()').extract()[0]
             prov_value = self._get_value(prov_name, self.area_dict)
-
-
             if case_type == self._INVESTEVENTS:
                 phase_name = each.xpath('./i[@class="cell round"]/a/span[@class="tag gray"]/text()').extract()[0]
-                phase_value = self._get_value(phase_name, self.phase_dict)
                 type =0
             else:
                 phase_name = each.xpath('./i[@class="cell round"]/span[@class="tag gray"]/text()').extract()[0]
-                phase_value = self._get_value(phase_name, self.phase_dict)
                 type =1
-
+            phase_value = self._get_value(phase_name, self.phase_dict)
 
             # fina_msg : 数千万等
             amountmsg = each.xpath('./i[@class="cell fina"]//text()').extract()[0].strip()
             investor_dict = self._build_investor_dict(each)
             ItemHelper.insert_investevent(time=time, companyName=companyName, type=type, phaseId=phase_value,
                                           amountmsg=amountmsg, investorDict=investor_dict, comment='',
-                                          insdustryId=scope_value, areaId=prov_value)
+                                          industryId=scope_value, areaId=prov_value)
 
     def _build_investor_dict(self, element):
         investor_dict = dict()

@@ -72,6 +72,8 @@ class ParserHelper():
     # to get parameter from url
     @classmethod
     def get_url_parameter(cls, req_url, key):
+        if len(req_url)==0:
+            return None
         result = urlparse.urlparse(req_url)
         qs_dict = urlparse.parse_qs(result.query, True)
         if qs_dict.has_key(key):

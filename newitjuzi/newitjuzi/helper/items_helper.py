@@ -13,11 +13,11 @@ class ItemHelper():
 
 
     @classmethod
-    def insert_investevent(cls, time, companyName, type, phaseId, amountmsg, investorDict, comment, insdustryId, areaId):
+    def insert_investevent(cls, time, companyName, type, phaseId, amountmsg, investorDict, comment, industryId, areaId):
         lists = list()
-        time  = cls._handle_datetime(time)
-        companyName = cls._handle_value(companyName)
-        companyId = cls.query_company_id(companyName, insdustryId, areaId)
+        time  = cls._handle_datetime(time.strip())
+        companyName = cls._handle_value(companyName.strip())
+        companyId = cls.query_company_id(companyName, industryId, areaId)
         type = type
         phaseId =phaseId
         amountmsg = cls._handle_value(amountmsg)
@@ -32,12 +32,12 @@ class ItemHelper():
         cls.db_helper.insert_data(lists);
 
     @classmethod
-    def insert_merger(cls, time, companyName, type, proportionmsg, amountmsg, investorDict, comment, insdustryId,
+    def insert_merger(cls, time, companyName, type, proportionmsg, amountmsg, investorDict, comment, industryId,
                            areaId):
         lists = list()
         time = cls._handle_datetime(time)
         companyName = cls._handle_value(companyName)
-        companyId = cls.query_company_id(companyName, insdustryId, areaId)
+        companyId = cls.query_company_id(companyName, industryId, areaId)
         type = type
         amountmsg = cls._handle_value(amountmsg)
         proportionmsg = cls._handle_value(proportionmsg)
@@ -63,6 +63,8 @@ class ItemHelper():
 
     @classmethod
     def query_company_id(cls, company_name, industryId, areaId):
+        if industryId is None:
+            industryId = -1
         session = cls.db_helper.get_session()
         result_company = session.query(FuCompany).filter(FuCompany.name == company_name).first()
         if result_company:
@@ -75,7 +77,6 @@ class ItemHelper():
         return company_id
 
 
-
     @classmethod
     def _handle_proportion(cls, proportionmsg):
         pattern_1 = re.compile(r"^(\d+?)%$")
@@ -84,7 +85,6 @@ class ItemHelper():
             return matchs.groups()[0]
         else:
             return -1
-
 
     @classmethod
     def _handle_value(cls, value):
@@ -101,21 +101,17 @@ class ItemHelper():
             try:
                 dt = datetime.datetime(int(matchs.groups()[0]), int(matchs.groups()[1]), int(matchs.groups()[2]))
             except ValueError:
+                print 'error datetime: ', value
                 _, monthdays = calendar.monthrange(int(matchs.groups()[0]), int(matchs.groups()[1]))
                 dt = datetime.datetime(int(matchs.groups()[0]), int(matchs.groups()[1]), monthdays)
             return dt
 
         matchs_2 = pattern_2.match(value)
         if matchs_2:
-            calendar.monthrange();
             return datetime.datetime(int(matchs_2.groups()[0]), int(matchs_2.groups()[1]), 1)
-
-
 
 
 if __name__ == "__main__":
     value ='2016.4.27'
     print ItemHelper._handle_datetime(value)
-
-
 

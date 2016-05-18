@@ -30,7 +30,6 @@ class ParserHelper():
         tree = self._build_page_tree(req_url)
         infos = tree.xpath("/html/body/div[2]/div[1]/div[2]/div[1]/div[2]/ul")
         lists = lists + self._parse_common_info(infos, 'prov')
-
         self.db_helper.insert_data(lists)
 
     def _build_page_tree(self, req_url):

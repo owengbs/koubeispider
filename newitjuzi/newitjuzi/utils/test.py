@@ -1,9 +1,10 @@
 import ConfigParser
 import os
 
-class ConfigUtils():
+class TUtils():
     cf = ConfigParser.ConfigParser()
     config_path = os.path.split(os.path.realpath(__file__))[0] + '/db.config'
+    print config_path
     cf.read(config_path)
 
     @classmethod
@@ -25,16 +26,19 @@ class ConfigUtils():
         return db_host, db_port, expire_interval
 
     @classmethod
-    def get_symbol_dict(cls):
+    def get_symbol_info(cls):
         symbol_dict = dict()
         symbol_info = cls.cf.items('symbol')
         for each in symbol_info:
             symbol_dict[each[0]] = each[1]
+        ks = symbol_dict.keys()
+        symbol_dict.get(key=ks[0])
         return symbol_dict
 
 
-if __name__=='__main__':
-    print ConfigUtils.get_symbol_info()
+if __name__ == "__main__":
+    print TUtils.get_symbol_info().keys()
+    print TUtils.get_db_info()
 
 
 

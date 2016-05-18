@@ -32,6 +32,14 @@ class ITSpider(scrapy.Spider):
         'https://www.itjuzi.com/merger/foreign',
     ]
 
+    def __init__(self, *a, **kw):
+        super(ITSpider, self).__init__(*a, **kw)
+        parser_helper = ParserHelper()
+        parser_helper.init_db()
+        self.phase_dict = parser_helper.get_phase_dict()
+        self.area_dict = parser_helper.get_area_dict()
+        self.scope_dict = parser_helper.get_industry_dict()
+
     def parse(self, response):
         self.parse_paging_page(response)
         #
@@ -46,13 +54,6 @@ class ITSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse)
 
 
-    def __init__(self, *a, **kw):
-        super(ITSpider, self).__init__(*a, **kw)
-        parser_helper = ParserHelper()
-        parser_helper.init_db()
-        self.phase_dict = parser_helper.get_phase_dict()
-        self.area_dict = parser_helper.get_area_dict()
-        self.scope_dict = parser_helper.get_industry_dict()
 
 
     def parse_paging_page(self, response):

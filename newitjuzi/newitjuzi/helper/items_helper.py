@@ -4,6 +4,7 @@ from datetime import datetime
 import re
 
 from newitjuzi.db_handler.mysql_handler import DBHelper
+from newitjuzi.helper.amount_helper import AmountHelper
 from newitjuzi.models.funders_model import *
 
 
@@ -20,14 +21,17 @@ class ItemHelper():
         companyId = cls.query_company_id(companyName, industryId, areaId)
         type = type
         phaseId =phaseId
+        print 'amountmsg :', amountmsg
         amountmsg = cls._handle_value(amountmsg)
+        print 'amountmsg :', amountmsg
+        amount, symbol_key = AmountHelper.convertAmount(amountmsg)
         comment = cls._handle_value(comment)
         for key in investorDict:
             value = investorDict[key]
             each = FuInvestEvent(phaseid=phaseId, companyid=companyId,
-                          date=time, amount=-1,
-                          amountmsg=amountmsg, institutionid=value, institutionmsg=key,
-                          comment=comment, author='', type=type)
+                                 date=time, amount=amount, amountmsg=amountmsg,
+                                 symbol=symbol_key,institutionid=value, institutionmsg=key,
+                                 comment=comment, author='', type=type)
             lists.append(each)
         cls.db_helper.insert_data(lists);
 
@@ -39,7 +43,11 @@ class ItemHelper():
         companyName = cls._handle_value(companyName)
         companyId = cls.query_company_id(companyName, industryId, areaId)
         type = type
+        print 'amountmsg :', amountmsg
         amountmsg = cls._handle_value(amountmsg)
+        print 'amountmsg :', amountmsg
+
+        amount, symbol_key = AmountHelper.convertAmount(amountmsg)
         proportionmsg = cls._handle_value(proportionmsg)
         proportion = cls._handle_proportion(proportionmsg)
         comment = cls._handle_value(comment)
@@ -47,7 +55,7 @@ class ItemHelper():
             value = investorDict[key]
             each = FuMerger( companyid=companyId,
                             date=time, proportion=proportion,
-                            proportionmsg=proportionmsg, amountmsg=amountmsg, amount=-1,
+                            proportionmsg=proportionmsg, amountmsg=amountmsg, amount=amount,symbol=symbol_key,
                             institutionid=value, institutionmsg=key,
                             comment=comment, author='', type=type)
             lists.append(each)

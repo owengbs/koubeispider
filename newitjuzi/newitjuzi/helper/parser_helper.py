@@ -28,7 +28,7 @@ class ParserHelper():
         #https://www.itjuzi.com/investevents/foreign
         req_url = 'https://www.itjuzi.com/investevents/foreign'
         tree = self._build_page_tree(req_url)
-        infos = tree.xpath("/html/body/div[2]/div[1]/div[2]/div[1]/div[2]/ul")
+        infos = tree.xpath('//ul[@class="ui-filterui"][1]')
         lists = lists + self._parse_common_info(infos, 'prov')
         self.db_helper.insert_data(lists)
 

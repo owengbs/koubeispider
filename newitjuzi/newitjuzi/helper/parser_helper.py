@@ -20,7 +20,7 @@ class ParserHelper():
     def init_db(self):
         req_url = 'https://www.itjuzi.com/investevents'
         tree = self._build_page_tree(req_url)
-        infos = tree.xpath("/html/body/div[2]/div[1]/div[2]/div[1]/div[2]/ul")
+        infos = tree.xpath('//ul[@class="ui-filterui"][1]')
         lists = list()
         lists = lists + self._parse_common_info(infos, 'scope')
         lists = lists+ self._parse_common_info(infos, 'prov')

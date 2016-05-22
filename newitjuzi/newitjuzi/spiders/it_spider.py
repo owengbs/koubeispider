@@ -85,8 +85,8 @@ class ITSpider(scrapy.Spider):
         req_url = response.url
         index = req_url.rfind('/')
         institution_id = req_url[index + 1:]
-        institution_name = response.selector.xpath('/html/body/div[2]/div[1]/div[2]/div/div[2]/p[1]/span[@class="title"]/text()').extract()[0]
-        institution_desc = response.selector.xpath('/html/body/div[2]/div[2]/div[2]/div[1]/div[2]/div[@class="des"]/text()').extract()[0]
+        institution_name = response.selector.xpath('//div[@class="boxed rel"]/div[@class="picinfo"]/p/span[@class="title"]/text()').extract()[0]
+        institution_desc = response.selector.xpath('//div[@class="des"]/text()').extract()[0]
         institution_name = institution_name.encode('utf-8').strip()
         institution_desc = institution_desc.encode('utf-8').strip()
         ItemHelper.insert_institution(institutionId=institution_id, name=institution_name,
